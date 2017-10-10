@@ -2,7 +2,7 @@
 echo "$1"
 while [ "$select" != "NO" -a "$select" != "YES" ]; do
     select=$(echo -e 'NO\nYES' | dmenu -nb $1 -nf $3 -sb $2 -sf $3\
-    -fn '-*-*-medium-r-normal-*-*-*-*-*-*-100-*-*' -i -p "Are you sure you want to logout?")
+    -fn 'System San Francisco Display 10' -i -p "Are you sure you want to logout?")
     [ -z "$select" ] && exit 0
 done
 [ "$select" = "NO" ] && exit 0

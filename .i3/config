@@ -1,9 +1,37 @@
+
+
 # mod
 set $mod Mod4
+
+
+smart_borders on
+smart_gaps on
+#gaps inner 0
+#gaps outer 2
+for_window [class="^.*"] border pixel 2
 new_window 1pixel
 
+set $Locker i3lock-fancy -t "" -p -- scrot
+
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Escape mode "$mode_system"
+
 # font
-font pango: System San Francisco Display 10
+font pango: Roboto Mono 10
 
 exec --no-startup-id xmodmap -e "clear lock" #disable caps lock switch
 exec --no-startup-id xmodmap -e "keysym Caps_Lock = Escape" #set caps_lock as escape
@@ -21,7 +49,7 @@ bindsym $mod+k focus up
 bindsym $mod+l focus right
 
 # lock
-bindsym $mod+Shift+x exec lock -t "" -p -- scrot
+#bindsym $mod+Shift+x exec lock -t "" -p -- escrotum
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -59,7 +87,7 @@ set $workspace4 "4"
 set $workspace5 "5"
 set $workspace6 "6"
 set $workspace7 "7"
-set $workspace8 "8"
+set $workspace8 "8 "
 set $workspace9 "9 "
 set $workspace10 "10 "
 
@@ -114,22 +142,23 @@ mode "resize" {
 # resize mode
 bindsym $mod+r mode "resize"
 
-set $urgent-bg-color     #E53935
-
-set_from_resource $a-bg i3wm.color8 #2f343f
+set_from_resource $a-br i3wm.color4 #f3f4f5
+set_from_resource $i-br i3wm.color8 #2f343f
+set_from_resource $a-bg i3wm.color4 #2f343f
 set_from_resource $i-bg i3wm.color0 #2f343f
-set_from_resource $a-text i3wm.color7 #f3f4f5
+set_from_resource $a-text i3wm.color0 #f3f4f5
 set_from_resource $i-text i3wm.color6 #676E7D
 
+set_from_resource $u-bg i3wm.color2 #E53935
 
 # class                 border	  backgr.	text	 indicator	 child_border
-client.focused          $a-bg     $a-bg     $a-text  $a-bg       $a-bg
-client.focused_inactive $a-bg     $a-bg     $a-text  $a-bg       $a-bg
-client.unfocused        $i-bg     $i-bg     $i-text  $i-bg       $i-bg
-client.urgent           $i-bg     $i-bg     $i-text  $i-bg       $i-bg
-client.placeholder      $i-bg     $i-bg     $i-text  $i-bg       $i-bg
+client.focused          $a-br     $a-bg     $a-text  $a-bg       $a-br
+client.focused_inactive $a-br     $a-bg     $a-text  $a-bg       $a-br
+client.unfocused        $i-br     $i-bg     $i-text  $i-bg       $i-br
+client.urgent           $i-br     $i-bg     $i-text  $i-bg       $i-br
+client.placeholder      $i-br     $i-bg     $i-text  $i-bg       $i-br
 
-client.background       $a-bg
+client.background       $a-br
 
 
 
@@ -138,56 +167,53 @@ bar {
 	status_command i3blocks -c ~/.i3/i3blocks.conf
 	colors {
 		background $i-bg
-		separator #757575
 		#                  border             background         text
 		focused_workspace  $a-bg		      $a-bg		         $a-text
 		inactive_workspace $i-bg			  $i-bg				 $i-text
-		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+		urgent_workspace   $u-bg   			  $u-bg				 $a-text
 	}
 }
 
 
 # exit i3
-bindsym $mod+Shift+e exec ~/.i3/scripts/exit_menu "$a-bg" "$i-bg" "$a-text"
+#bindsym $mod+Shift+e exec --no-startup-id ~/.i3/scripts/exit_menu "$i-bg" "$a-bg" "$a-text"
 
 # sticky window
 bindsym $mod+Shift+s sticky toggle
 
 # floating
-for_window [class="qTox"] floating enable
-for_window [class="Pavucontrol"] floating enable
-for_window [class="Skype"] floating enable
+for_window [class="Peek"] floating enable
 
 # default workspaces
-assign [class="Spotify"] $workspace10
+assign [class="Chromium"] $workspace1
 assign [class="discord"] $workspace9
-assign [class="qTox"] $workspace9
+assign [class="Atom"] $workspace3
 
 # key-bindings
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioPause exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-bindsym $mod+Shift+f exec --no-startup-id chromium-browser
-bindsym $mod+Return exec terminator
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+1 i3blocks #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+1 i3blocks #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+1 i3blocks #mute sound
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym $mod+Shift+f exec --no-startup-id chromium
+bindsym $mod+Return exec --no-startup-id urxvt
 bindsym $mod+Shift+q kill
-bindsym Print exec screenshot
-#bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
+#bindsym Print exec screenshot
+#bindsym $mod+d exec rofi -show run -lines 5 -eh 2 -width 100 -padding 600 -opacity "85" -bw 0  -font "System San Francisco Display 18"
 bindsym $mod+d exec rofi -show run -font "System San Francisco Display 18"
 
 #brightness
-bindsym XF86MonBrightnessUp exec light -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight +10
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -10
 
 #screenshots
-bindsym --release Print exec scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # All screens
-bindsym --release Shift+Print exec scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # Area selection
+bindsym --release Print exec --no-startup-id  scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # All screens
+bindsym --release Shift+Print exec --no-startup-id scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # Area selection
 
 #theme
-bindsym $mod+Shift+w exec --no-startup-id ~/.local/bin/wal -i ~/Pictures/wallpapers/wal/ -t -q
+bindsym $mod+Shift+w exec --no-startup-id wal -i ~/.wallpapers/ -t -q -o ~/.config/wal/scripts/lightdm.sh
 
 
 # startup
@@ -196,8 +222,9 @@ bindsym $mod+Shift+w exec --no-startup-id ~/.local/bin/wal -i ~/Pictures/wallpap
 #exec --no-startup-id spotify
 #exec --no-startup-id discord
 
-exec_always --no-startup-id ~/.local/bin/wal -i ~/Pictures/wallpapers/wal/ -t -q
+#exec_always --no-startup-id wal -i ~/.wallpapers -t -q -o ~/.config/wal/scripts/lightdm.sh
+exec_always --no-startup-id wal -R -t -o ~/.config/wal/scripts/lightdm.sh
 
-exec --no-startup-id compton -f
+#exec --no-startup-id compton -f
 
-exec --no-startup-id xss-lock -- lock -t "" -p -- scrot 
+exec --no-startup-id nm-applet

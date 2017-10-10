@@ -120,4 +120,4 @@ fi
 #export PATH=$PATH:~/.local/bin
 export NO_AT_BRIDGE=1
 (wal -r -t &)
-alias config='usr/bin/git --git-dir=/home/james/.cfg/ --work-tree=/home/james
+alias config='usr/bin/git --git-dir=/home/james/.cfg/ --work-tree=/home/james'
