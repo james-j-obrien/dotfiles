@@ -1,0 +1,12 @@
+URxvt.transparent:		true
+URxvt.shading:			15
+URxvt*font:				xft:Roboto Mono:size=14
+URxvt*boldfont:			xft:Roboto Mono:bold:size=14
+URxvt.scrollBar:		false
+URxvt*cursorBlink:		true
+URxvt.letterSpace: 		0
+
+URxvt.perl-ext-common:	default,matcher
+URxvt.url-launcher:		/usr/bin/chromium
+URxvt.matcher.button:	1
+
