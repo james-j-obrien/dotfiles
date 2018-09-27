@@ -4,7 +4,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # ZSH OPTIONS
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 HIST_STAMPS="yyyy/mm/dd"
@@ -17,7 +17,7 @@ plugins=(sudo command-not-found zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 zmodload zsh/datetime
 
-alias ussh="ssh z5161933@login.cse.unsw.edu.au -t 'exec'"
+alias ussh="ssh z5161933@login.cse.unsw.edu.au -t 'exec zsh && exit'"
 zssh () { ssh "$@" -t 'exec'; }
 
 # LS AND CD COLORING
@@ -29,3 +29,11 @@ compinit
 
 alias pipes='pipes -r 0 -p 5'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+ranger() {
+    if [ -z "$RANGER_LEVEL" ]; then
+        /usr/bin/ranger "$@"
+    else
+		exit
+    fi
+}

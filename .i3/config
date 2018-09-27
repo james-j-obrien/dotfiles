@@ -152,13 +152,13 @@ set_from_resource $i-text i3wm.color6 #676E7D
 set_from_resource $u-bg i3wm.color2 #E53935
 
 # class                 border	  backgr.	text	 indicator	 child_border
-client.focused          $a-br     $a-bg     $a-text  $a-bg       $a-br
-client.focused_inactive $a-br     $a-bg     $a-text  $a-bg       $a-br
-client.unfocused        $i-br     $i-bg     $i-text  $i-bg       $i-br
-client.urgent           $i-br     $i-bg     $i-text  $i-bg       $i-br
-client.placeholder      $i-br     $i-bg     $i-text  $i-bg       $i-br
+client.focused          $a-bg     $a-bg     $a-text  $a-bg       $a-bg
+client.focused_inactive $i-bg     $i-bg     $i-text  $i-bg       $i-bg
+client.unfocused        $i-bg     $i-bg     $i-text  $i-bg       $i-bg
+client.urgent           $i-bg     $i-bg     $i-text  $i-bg       $i-bg
+client.placeholder      $i-bg     $i-bg     $i-text  $i-bg       $i-bg
 
-client.background       $a-br
+client.background       $a-bg
 
 
 
@@ -183,16 +183,18 @@ bindsym $mod+Shift+s sticky toggle
 
 # floating
 for_window [class="Peek"] floating enable
+for_window [class="GameWindow"] floating enable
 
 # default workspaces
 assign [class="Chromium"] $workspace1
 assign [class="discord"] $workspace9
 assign [class="Atom"] $workspace3
+assign [class="Gedit"] $workspace3
 
 # key-bindings
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+1 i3blocks #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+1 i3blocks #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+1 i3blocks #mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+1 i3blocks #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+1 i3blocks #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+1 i3blocks #mute sound
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next

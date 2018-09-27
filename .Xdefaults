@@ -1,7 +1,7 @@
 URxvt.transparent:		true
 URxvt.shading:			15
-URxvt*font:				xft:Roboto Mono:size=14
-URxvt*boldfont:			xft:Roboto Mono:bold:size=14
+URxvt*font:				xft:Roboto Mono:size=22
+URxvt*boldfont:			xft:Roboto Mono:bold:size=22
 URxvt.scrollBar:		false
 URxvt*cursorBlink:		true
 URxvt.letterSpace: 		0
@@ -10,3 +10,7 @@ URxvt.perl-ext-common:	default,matcher
 URxvt.url-launcher:		/usr/bin/chromium
 URxvt.matcher.button:	1
 
+URxvt.perl-ext-common:        default,xkr-clipboard
+URxvt.iso14755:               false
+URxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.Control-Insert:  perl:clipboard:copy
